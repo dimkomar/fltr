@@ -18,9 +18,14 @@ class CurrencyListBloc extends Bloc<CurrencyListEvent, CurrencyListState> {
           emit(CurrencyListLoading());
         }
         final currencyList = await currencyRepository.getCurrenciesList();
-        emit(CurrencyListLoaded(currencyList: currencyList));
+        //TODO update with local repo
+        if (currencyList.isEmpty) {
+          emit(CurrencyListLoadingFailure());
+        } else {
+          emit(CurrencyListLoaded(currencyList: currencyList));
+        }
       } catch (e) {
-        emit(CurrencyListLoadingFailure(e));
+        emit(CurrencyListLoadingFailure(exception: e));
       } finally {
         event.completer?.complete();
       }
