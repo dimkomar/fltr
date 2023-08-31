@@ -7,13 +7,11 @@ import 'abstract_currency_repository.dart';
 import 'models/rate.dart';
 
 class CurrencyRepository implements AbstractCurrencyRepository {
-
   CurrencyRepository({
     required this.dio,
   });
 
   final Dio dio;
-
 
   @override
   Future<List<Rate>> getCurrenciesList() async {
@@ -39,5 +37,4 @@ class CurrencyRepository implements AbstractCurrencyRepository {
       throw Exception('Failed to load currencies');
     }
   }
-
 }

@@ -8,7 +8,8 @@ class Rate extends Equatable {
   final String date;
   final String name;
 
-  Rate({required this.rate,
+  Rate(
+      {required this.rate,
       required this.iso,
       required this.code,
       required this.quantity,

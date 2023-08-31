@@ -61,11 +61,14 @@ class _CurrencyListScreenState extends State<CurrencyListScreen> {
                       Text('Something went wrond',
                           style: theme.textTheme.headlineMedium),
                       Text('Please try again later',
-                          style: theme.textTheme.labelSmall?.copyWith(fontSize: 16)),
+                          style: theme.textTheme.labelSmall
+                              ?.copyWith(fontSize: 16)),
                       SizedBox(height: 30),
-                      TextButton(onPressed: () {
-                        _currencyListBloc.add(LoadCurrencyList());
-                      }, child: Text('Try again'))
+                      TextButton(
+                          onPressed: () {
+                            _currencyListBloc.add(LoadCurrencyList());
+                          },
+                          child: Text('Try again'))
                     ],
                   ),
                 );

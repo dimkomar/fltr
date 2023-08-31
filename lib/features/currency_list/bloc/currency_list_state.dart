@@ -24,9 +24,7 @@ class CurrencyListLoaded extends CurrencyListState {
 }
 
 class CurrencyListLoadingFailure extends CurrencyListState {
-  CurrencyListLoadingFailure(
-      this.exception
-      );
+  CurrencyListLoadingFailure(this.exception);
 
   final Object? exception;
 
