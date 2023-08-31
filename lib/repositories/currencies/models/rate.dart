@@ -1,4 +1,6 @@
-class Rate {
+import 'package:equatable/equatable.dart';
+
+class Rate extends Equatable {
   final double rate;
   final String iso;
   final int code;
@@ -6,7 +8,12 @@ class Rate {
   final String date;
   final String name;
 
-  Rate({required this.rate, required this.iso, required this.code, required this.quantity, required this.date, required this.name});
+  Rate({required this.rate,
+      required this.iso,
+      required this.code,
+      required this.quantity,
+      required this.date,
+      required this.name});
 
   factory Rate.fromJson(Map<String, dynamic> json) {
     return Rate(
@@ -18,4 +25,7 @@ class Rate {
       name: json['name'],
     );
   }
+
+  @override
+  List<Object?> get props => [iso, code, quantity, date, name];
 }
