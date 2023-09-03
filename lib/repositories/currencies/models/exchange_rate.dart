@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-class Rate extends Equatable {
+@JsonSerializable()
+class ExchangeRate extends Equatable {
   final double rate;
   final String iso;
   final int code;
@@ -8,7 +10,7 @@ class Rate extends Equatable {
   final String date;
   final String name;
 
-  Rate(
+  ExchangeRate(
       {required this.rate,
       required this.iso,
       required this.code,
@@ -16,8 +18,8 @@ class Rate extends Equatable {
       required this.date,
       required this.name});
 
-  factory Rate.fromJson(Map<String, dynamic> json) {
-    return Rate(
+  factory ExchangeRate.fromJson(Map<String, dynamic> json) {
+    return ExchangeRate(
       rate: json['rate'],
       iso: json['iso'],
       code: json['code'],

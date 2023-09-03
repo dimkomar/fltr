@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../repositories/currencies/models/rate.dart';
+import '../../../repositories/currencies/models/exchange_rate.dart';
 import 'county_flag.dart';
 
 class CurrencyTile extends StatelessWidget {
@@ -10,7 +10,7 @@ class CurrencyTile extends StatelessWidget {
     required this.currency,
   }) : super(key: key);
 
-  final Rate currency;
+  final ExchangeRate currency;
 
   @override
   Widget build(BuildContext context) {

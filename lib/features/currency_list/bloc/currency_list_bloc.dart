@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../../../repositories/currencies/abstract_currency_repository.dart';
-import '../../../repositories/currencies/models/rate.dart';
+import '../../../repositories/currencies/models/exchange_rate.dart';
 
 part 'currency_list_event.dart';
 
@@ -18,14 +20,14 @@ class CurrencyListBloc extends Bloc<CurrencyListEvent, CurrencyListState> {
           emit(CurrencyListLoading());
         }
         final currencyList = await currencyRepository.getCurrenciesList();
-        //TODO update with local repo
         if (currencyList.isEmpty) {
           emit(CurrencyListLoadingFailure());
         } else {
           emit(CurrencyListLoaded(currencyList: currencyList));
         }
-      } catch (e) {
+      } catch (e, st) {
         emit(CurrencyListLoadingFailure(exception: e));
+        GetIt.I<Talker>().handle(e, st);
       } finally {
         event.completer?.complete();
       }

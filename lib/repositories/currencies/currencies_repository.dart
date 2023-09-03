@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
 import 'abstract_currency_repository.dart';
-import 'models/rate.dart';
+import 'models/exchange_rate.dart';
 
 class CurrencyRepository implements AbstractCurrencyRepository {
   CurrencyRepository({
@@ -14,7 +14,7 @@ class CurrencyRepository implements AbstractCurrencyRepository {
   final Dio dio;
 
   @override
-  Future<List<Rate>> getCurrenciesList() async {
+  Future<List<ExchangeRate>> getCurrenciesList() async {
     // Configure the HttpClient to accept self-signed certificates
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
@@ -29,7 +29,7 @@ class CurrencyRepository implements AbstractCurrencyRepository {
     if (response.statusCode == 200) {
       final data = response.data as Map<String, dynamic>;
       final rates = data['rates'] as List;
-      final rateList = rates.map((e) => Rate.fromJson(e)).toList();
+      final rateList = rates.map((e) => ExchangeRate.fromJson(e)).toList();
       print(rates);
 
       return rateList;

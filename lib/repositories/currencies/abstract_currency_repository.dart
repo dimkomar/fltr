@@ -1,5 +1,5 @@
-import 'models/rate.dart';
+import 'models/exchange_rate.dart';
 
 abstract class AbstractCurrencyRepository {
-  Future<List<Rate>> getCurrenciesList();
+  Future<List<ExchangeRate>> getCurrenciesList();
 }

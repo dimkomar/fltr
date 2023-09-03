@@ -17,7 +17,7 @@ class CurrencyListLoaded extends CurrencyListState {
     required this.currencyList,
   });
 
-  final List<Rate> currencyList;
+  final List<ExchangeRate> currencyList;
 
   @override
   List<Object?> get props => [currencyList];
