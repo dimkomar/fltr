@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "459904111351",
+    "project_id": "currency-national-rate",
+    "storage_bucket": "currency-national-rate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459904111351:android:0b0fcb288b3cca4f65b9f2",
+        "android_client_info": {
+          "package_name": "com.cryptoguys.crypto_coins_list"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459904111351-25fu85bio3hdms5517hh5i1ls0t3l1m0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMm8hD6SrjseDsOQ8pFqLTS0d3gjXuOps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459904111351-25fu85bio3hdms5517hh5i1ls0t3l1m0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
