@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
@@ -22,8 +23,10 @@ void main() async {
 
 
   final talker = TalkerFlutter.init();
-  GetIt.I.registerSingleton(talker);;
+  GetIt.I.registerSingleton(talker);
   GetIt.I<Talker>().debug('Talker is ready');
+
+  await Hive.initFlutter();
 
   GetIt.I.registerLazySingleton<AbstractCurrencyRepository>(
       () => CurrencyRepository(dio: Dio()));

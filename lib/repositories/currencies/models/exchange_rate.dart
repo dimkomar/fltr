@@ -1,13 +1,19 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:hive_flutter/adapters.dart';
 
-@JsonSerializable()
+@HiveType(typeId: 1)
 class ExchangeRate extends Equatable {
+  @HiveField(0)
   final double rate;
+  @HiveField(1)
   final String iso;
+  @HiveField(2)
   final int code;
+  @HiveField(3)
   final int quantity;
+  @HiveField(4)
   final String date;
+  @HiveField(5)
   final String name;
 
   ExchangeRate(
