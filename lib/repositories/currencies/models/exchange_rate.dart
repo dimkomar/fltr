@@ -51,14 +51,13 @@ class ExchangeRate extends Equatable {
     'евро': 'Euro',
     'злотый': 'Polish Zloty',
     'российский рубль': 'Russian Ruble',
-    'доллар США': 'US Dollar',
+    'доллар США': 'US Dollar'
   };
 
   static final Map<String, String> currencySymbols = {
     'евро': '€',
     'доллар США': '\$',
     'российский рубль': '₽',
-    'злотый': 'zł',
-    'белорусский рубль': 'Br',
+    'злотый': 'zł'
   };
 }

@@ -53,7 +53,7 @@ class CurrencyRepository implements AbstractCurrencyRepository {
         quantity: 1,
         date: '2023-01-01',
         name: 'Belarusian Ruble',
-        currencyMark: 'белорусский рубль'
+        currencyMark: 'Br'
     );
 
     final rates = data['rates'] as List;
