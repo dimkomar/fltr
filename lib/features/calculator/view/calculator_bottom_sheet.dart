@@ -98,14 +98,14 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
   void _handleButtonPress(String value) {
     setState(() {
       if (value == "=") {
-        String result = _logic.calculateResult();
-        widget.onResult(result);
+        _logic.setInput(value); // Adjusting this line as per the modified CalculatorLogic class
+        widget.onResult(_logic.currentInput); // After calculation, currentInput in CalculatorLogic will have the result or "Error"
       } else if (value == "AC") {
         _logic.clearCalculator();
       } else if (value == "⌫") {
         _logic.backspace();
       } else {
-        _logic.currentInput += value;
+        _logic.setInput(value); // This will handle operators as well as numbers
       }
     });
   }
