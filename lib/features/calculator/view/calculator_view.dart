@@ -14,85 +14,56 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            currentInput,
-            style: TextStyle(fontSize: 24),
+    return Container(
+      color: Colors.grey, // задаём цвет фона
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min, // Устанавливаем минимальное вертикальное пространство
+        crossAxisAlignment: CrossAxisAlignment.stretch, // Растягиваем детей по ширине
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              currentInput,
+              style: TextStyle(fontSize: 24, color: Colors.white),
+            ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _calculatorButton("AC", () {
-              currentInput = "";
-              setState(() {});
-            }),
-            _calculatorButton("÷", () {
-              currentInput += "/";
-              setState(() {});
-            }),
-            _calculatorButton("×", () {
-              currentInput += "*";
-              setState(() {});
-            }),
-            _calculatorButton("⌫", () {
-              if (currentInput.isNotEmpty) {
-                currentInput = currentInput.substring(0, currentInput.length - 1);
-              }
-              setState(() {});
-            }),
-          ],
-        ),
-        _calculatorRow(["7", "8", "9", "-"]),
-        _calculatorRow(["4", "5", "6", "+"]),
-        _calculatorRow(["1", "2", "3"]),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _calculatorButton("0", () {
-              currentInput += "0";
-              setState(() {});
-            }),
-            _calculatorButton(".", () {
-              currentInput += ".";
-              setState(() {});
-            }),
-            _calculatorButton("Спрятать", () {
-              Navigator.pop(context);
-            }),
-            _calculatorButton("=", () {
-              widget.onResult(currentInput);
-              Navigator.pop(context);
-            }),
-          ],
-        ),
-      ],
+          _calculatorRow(["AC", "÷", "×", "⌫"]),
+          _calculatorRow(["7", "8", "9", "-"]),
+          _calculatorRow(["4", "5", "6", "+"]),
+          _calculatorRow(["1", "2", "3", "="]),
+          _calculatorRow(["0", ".", "V", "="]),
+        ],
+      ),
     );
   }
 
   Widget _calculatorRow(List<String> values) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: values.map((value) {
-        return _calculatorButton(value, () {
-          currentInput += value;
-          setState(() {});
-        });
-      }).toList(),
+    return Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // Растягиваем детей по ширине
+        children: values.map((value) {
+          return _calculatorButton(value, () {
+            setState(() {
+              currentInput += value;
+            });
+          });
+        }).toList(),
+      ),
     );
   }
 
-  Widget _calculatorButton(String label, VoidCallback onTap) {
-    return ElevatedButton(
-      onPressed: onTap,
-      child: Text(label),
-      style: ElevatedButton.styleFrom(
-        shape: CircleBorder(),
-        padding: EdgeInsets.all(20),
+  Widget _calculatorButton(String label, VoidCallback onTap, {bool isLong = false}) {
+    return Expanded(
+      flex: isLong ? 2 : 1,
+      child: ElevatedButton(
+        onPressed: onTap,
+        child: Text(label, style: TextStyle(color: Colors.white)),
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          padding: EdgeInsets.zero, // Здесь мы устанавливаем отступы в ноль
+          primary: Colors.black,
+        ),
       ),
     );
   }
