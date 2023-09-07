@@ -27,9 +27,13 @@ void main() async {
   GetIt.I<Talker>().debug('Talker is ready');
 
   await Hive.initFlutter();
+  Hive.registerAdapter(ExchangeRateAdapter());
+  Hive.registerAdapter(ExchangeRateListAdapter());
+
+  final exchangeRateBox = await Hive.openBox<ExchangeRate>('exchange_rate_box');
 
   GetIt.I.registerLazySingleton<AbstractCurrencyRepository>(
-      () => CurrencyRepository(dio: Dio()));
+      () => CurrencyRepository(dio: Dio(), exchangeRateBox: exchangeRateBox));
 
   final dio = Dio();
   dio.interceptors.add(TalkerDioLogger(
