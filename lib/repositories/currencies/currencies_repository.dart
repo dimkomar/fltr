@@ -45,8 +45,22 @@ class CurrencyRepository implements AbstractCurrencyRepository {
         'https://developerhub.alfabank.by:8273/partner/1.0.1/public/nationalRates?currencyCode=978,985,643,840');
 
     final data = response.data as Map<String, dynamic>;
+
+    ExchangeRate defaultExchangeRate = ExchangeRate(
+        rate: 1.0,
+        iso: 'BYN',
+        code: 840,
+        quantity: 1,
+        date: '2023-01-01',
+        name: 'Belarusian Ruble',
+        currencyMark: 'белорусский рубль'
+    );
+
     final rates = data['rates'] as List;
     final rateList = rates.map((e) => ExchangeRate.fromJson(e)).toList();
+
+    rateList.add(defaultExchangeRate);
+
     return rateList;
   }
 }

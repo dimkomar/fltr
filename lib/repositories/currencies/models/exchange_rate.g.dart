@@ -23,13 +23,14 @@ class ExchangeRateAdapter extends TypeAdapter<ExchangeRate> {
       quantity: fields[3] as int,
       date: fields[4] as String,
       name: fields[5] as String,
+      currencyMark: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ExchangeRate obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.rate)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class ExchangeRateAdapter extends TypeAdapter<ExchangeRate> {
       ..writeByte(4)
       ..write(obj.date)
       ..writeByte(5)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(6)
+      ..write(obj.currencyMark);
   }
 
   @override

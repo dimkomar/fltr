@@ -17,13 +17,10 @@ class CurrencyTile extends StatelessWidget {
     var theme = Theme.of(context).textTheme;
 
     return ListTile(
-        //todo get currency mark
         leading: getFlag(currency.iso),
         title: Text(currency.name, style: theme.bodyMedium),
-        subtitle: Text('${currency.rate} \$', style: theme.labelMedium),
-        trailing: Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          Navigator.of(context).pushNamed('/coin', arguments: currency);
-        });
+        subtitle: Text(currency.iso, style: theme.labelMedium),
+        trailing: Text('${currency.rate} ${currency.currencyMark}', style: theme.bodyMedium)
+    );
   }
 }

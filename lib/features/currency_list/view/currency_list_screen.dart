@@ -31,7 +31,7 @@ class _CurrencyListScreenState extends State<CurrencyListScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Курсы валют'),
+          title: const Text('Курсы валют НБРБ'),
         ),
         body: RefreshIndicator(
           onRefresh: () async {
@@ -58,7 +58,7 @@ class _CurrencyListScreenState extends State<CurrencyListScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Something went wrond',
+                      Text('Something went wrong',
                           style: theme.textTheme.headlineMedium),
                       Text('Please try again later',
                           style: theme.textTheme.labelSmall
