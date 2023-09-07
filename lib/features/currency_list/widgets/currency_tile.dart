@@ -27,75 +27,100 @@ class _CurrencyTileState extends State<CurrencyTile> {
     _focusNode = FocusNode();
   }
 
-  void _showBottomSheet(BuildContext context) {
+  void _showCalculatorBottomSheet() {
     String currentInput = "";
 
     showModalBottomSheet(
       context: context,
-      builder: (context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              currentInput,
-              style: TextStyle(fontSize: 24),
-            ),
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            itemCount: 12, // 10 numbers + . + =
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-            ),
-            itemBuilder: (context, index) {
-              if (index < 9) {
-                return ElevatedButton(
-                  onPressed: () {
-                    currentInput += (index + 1).toString();
-                    setState(() {});
-                  },
-                  child: Text((index + 1).toString()),
-                );
-              } else if (index == 9) {
-                return ElevatedButton(
-                  onPressed: () {
-                    currentInput += ".";
-                    setState(() {});
-                  },
-                  child: Text("."),
-                );
-              } else if (index == 10) {
-                return ElevatedButton(
-                  onPressed: () {
-                    currentInput += "0";
-                    setState(() {});
-                  },
-                  child: Text("0"),
-                );
-              } else {
-                return ElevatedButton(
-                  onPressed: () {
-                    _rateController.text = currentInput;
-                    Navigator.pop(context);
-                  },
-                  child: Text("="),
-                );
-              }
-            },
-          ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Спрятать"),
-          ),
-        ],
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    currentInput,
+                    style: TextStyle(fontSize: 24),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _calculatorButton("AC", () {
+                      currentInput = "";
+                      setState(() {});
+                    }),
+                    _calculatorButton("÷", () {
+                      currentInput += "/";
+                      setState(() {});
+                    }),
+                    _calculatorButton("×", () {
+                      currentInput += "*";
+                      setState(() {});
+                    }),
+                    _calculatorButton("⌫", () {
+                      if (currentInput.isNotEmpty) {
+                        currentInput = currentInput.substring(0, currentInput.length - 1);
+                      }
+                      setState(() {});
+                    }),
+                  ],
+                ),
+                _calculatorRow(["7", "8", "9", "-"], currentInput, setState),
+                _calculatorRow(["4", "5", "6", "+"], currentInput, setState),
+                _calculatorRow(["1", "2", "3"], currentInput, setState),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _calculatorButton("0", () {
+                      currentInput += "0";
+                      setState(() {});
+                    }),
+                    _calculatorButton(".", () {
+                      currentInput += ".";
+                      setState(() {});
+                    }),
+                    _calculatorButton("Спрятать", () {
+                      Navigator.pop(context);
+                    }),
+                    _calculatorButton("=", () {
+                      // TODO: add calculation logic here if needed
+                      _rateController.text = currentInput;
+                      Navigator.pop(context);
+                    }),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _calculatorRow(List<String> values, String currentInput, StateSetter setState) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: values.map((value) {
+        return _calculatorButton(value, () {
+          currentInput += value;
+          setState(() {});
+        });
+      }).toList(),
+    );
+  }
+
+  Widget _calculatorButton(String label, VoidCallback onTap) {
+    return ElevatedButton(
+      onPressed: onTap,
+      child: Text(label),
+      style: ElevatedButton.styleFrom(
+        shape: CircleBorder(),
+        padding: EdgeInsets.all(20),
       ),
-    ).then((value) {
-      _focusNode.unfocus();
-    });
+    );
   }
 
   @override
@@ -104,7 +129,7 @@ class _CurrencyTileState extends State<CurrencyTile> {
 
     return InkWell(
       onTap: () {
-        _showBottomSheet(context);
+        _showCalculatorBottomSheet();
       },
       child: ListTile(
         leading: getFlag(widget.currency.iso),
