@@ -13,7 +13,29 @@ class CalculatorBottomSheet extends StatefulWidget {
 class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
   final CalculatorLogic _logic = CalculatorLogic();
 
-  final buttonTextStyle = TextStyle(color: Colors.white);
+
+  final buttonTextStyle = TextStyle(color: Colors.white, fontSize: 20.0);
+
+  Color _buttonColor(String label) {
+    switch (label) {
+      case "AC":
+        return Colors.red;
+      case "÷":
+      case "×":
+      case "-":
+      case "+":
+        return Colors.orange;
+      case "=":
+        return Colors.green;
+      case "⌫":
+        return Colors.blueGrey;
+      case "V":
+        return Colors.purple;
+      default:
+        return Colors.blue;
+    }
+  }
+
   final buttonStyle = ElevatedButton.styleFrom(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
     padding: EdgeInsets.zero,
@@ -32,7 +54,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               _logic.currentInput,
-              style: TextStyle(fontSize: 24, color: Colors.white),
+              style: TextStyle(fontSize: 35, color: Colors.white),
             ),
           ),
           _calculatorButtonRow(["AC", "÷", "×", "⌫"]),
@@ -44,6 +66,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
       ),
     );
   }
+
 
   Widget _calculatorButtonRow(List<String> values) {
     return Expanded(
@@ -58,13 +81,16 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
 
   Widget _calculatorButton(String label) {
     return Expanded(
-      flex: label == "V" ? 2 : 1,
       child: ElevatedButton(
         onPressed: () {
           _handleButtonPress(label);
         },
         child: Text(label, style: buttonTextStyle),
-        style: buttonStyle,
+        style: ElevatedButton.styleFrom(
+          primary: _buttonColor(label), // Используется новый метод для установки цвета
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          padding: EdgeInsets.zero,
+        ),
       ),
     );
   }
