@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 
@@ -74,7 +75,14 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
     return Expanded(
       flex: isLong ? 2 : 1,
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed: () {
+          if (label == "V") {
+            // Если нажато "V", закрываем bottom sheet
+            Navigator.of(context).pop();
+          } else {
+            _handleButtonPress(label);
+          }
+        },
         child: Text(label, style: TextStyle(color: Colors.white)),
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -89,6 +97,8 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
     setState(() {
       if (value == "=") {
         _calculateResult();
+        // Добавьте следующую строку, чтобы передать результат в _rateController.text
+        widget.onResult(displayedValue);
       } else if (value == "AC") {
         _clearCalculator();
       } else if (value == "⌫") {
@@ -115,36 +125,41 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
   }
 
   void _calculateResult() {
-    if (currentInput.isNotEmpty && operator != null) {
+    if (currentInput.isNotEmpty) {
       final secondOperand = double.tryParse(currentInput);
       if (secondOperand != null) {
-        double result;
-        switch (operator) {
-          case "+":
-            result = firstOperand! + secondOperand;
-            break;
-          case "-":
-            result = firstOperand! - secondOperand;
-            break;
-          case "×":
-            result = firstOperand! * secondOperand;
-            break;
-          case "÷":
-            if (secondOperand != 0) {
-              result = firstOperand! / secondOperand;
-            } else {
+        if (firstOperand != null && operator != null) {
+          double result;
+          switch (operator) {
+            case "+":
+              result = firstOperand! + secondOperand;
+              break;
+            case "-":
+              result = firstOperand! - secondOperand;
+              break;
+            case "×":
+              result = firstOperand! * secondOperand;
+              break;
+            case "÷":
+              if (secondOperand != 0) {
+                result = firstOperand! / secondOperand;
+              } else {
+                displayedValue = "Error";
+                return;
+              }
+              break;
+            default:
               displayedValue = "Error";
               return;
-            }
-            break;
-          default:
-            displayedValue = "Error";
-            return;
+          }
+          firstOperand = result;
+          currentInput = result.toString();
+          operator = null;
+          displayedValue = currentInput; // Обновляем displayedValue здесь
+          print("displayedValue: $displayedValue"); // Добавляем эту строку для вывода в консоль
+        } else {
+          firstOperand = secondOperand;
         }
-        displayedValue = result.toString();
-        currentInput = result.toString();
-        firstOperand = null;
-        operator = null;
       }
     }
   }

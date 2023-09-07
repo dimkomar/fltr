@@ -28,13 +28,14 @@ class _CurrencyTileState extends State<CurrencyTile> {
     _focusNode = FocusNode();
   }
 
-  void _showCalculatorBottomSheet() {
+  void _showCalculatorBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return CalculatorBottomSheet(
           onResult: (result) {
             _rateController.text = result;
+            Navigator.of(context).pop(); // Close the bottom sheet
           },
         );
       },
@@ -47,7 +48,7 @@ class _CurrencyTileState extends State<CurrencyTile> {
 
     return InkWell(
       onTap: () {
-        _showCalculatorBottomSheet();
+        _showCalculatorBottomSheet(context);
       },
       child: ListTile(
         leading: getFlag(widget.currency.iso),
