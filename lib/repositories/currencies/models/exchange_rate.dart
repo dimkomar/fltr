@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/adapters.dart';
 
+part 'exchange_rate.g.dart';
+
 @HiveType(typeId: 1)
 class ExchangeRate extends Equatable {
   @HiveField(0)
