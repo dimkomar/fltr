@@ -34,7 +34,9 @@ class _CurrencyTileState extends State<CurrencyTile> {
       builder: (context) {
         return CalculatorBottomSheet(
           onResult: (result) {
-            _rateController.text = result;
+            setState(() { // Добавлено setState
+              _rateController.text = result;
+            });
             Navigator.of(context).pop(); // Close the bottom sheet
           },
         );
