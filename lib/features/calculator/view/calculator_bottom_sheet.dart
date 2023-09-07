@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-
+import 'calculator_logic.dart'; // Ensure you have the 'calculator_logic.dart' in the same directory or adjust the path accordingly.
 
 class CalculatorBottomSheet extends StatefulWidget {
   final Function(String) onResult;
@@ -12,10 +11,7 @@ class CalculatorBottomSheet extends StatefulWidget {
 }
 
 class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
-  String currentInput = "";
-  String displayedValue = "";
-  double? firstOperand;
-  String? operator;
+  final CalculatorLogic _logic = CalculatorLogic();
 
   final buttonTextStyle = TextStyle(color: Colors.white);
   final buttonStyle = ElevatedButton.styleFrom(
@@ -35,7 +31,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              displayedValue,
+              _logic.currentInput,
               style: TextStyle(fontSize: 24, color: Colors.white),
             ),
           ),
@@ -76,69 +72,15 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
   void _handleButtonPress(String value) {
     setState(() {
       if (value == "=") {
-        _calculateResult();
-        widget.onResult(displayedValue);
+        String result = _logic.calculateResult();
+        widget.onResult(result);
       } else if (value == "AC") {
-        _clearCalculator();
+        _logic.clearCalculator();
       } else if (value == "⌫") {
-        _backspace();
+        _logic.backspace();
       } else {
-        currentInput += value;
-        displayedValue = currentInput;
+        _logic.currentInput += value;
       }
     });
-  }
-
-  void _clearCalculator() {
-    currentInput = "";
-    displayedValue = "";
-    firstOperand = null;
-    operator = null;
-  }
-
-  void _backspace() {
-    if (currentInput.isNotEmpty) {
-      currentInput = currentInput.substring(0, currentInput.length - 1);
-      displayedValue = currentInput;
-    }
-  }
-
-  void _calculateResult() {
-    if (currentInput.isNotEmpty) {
-      final secondOperand = double.tryParse(currentInput);
-      if (secondOperand != null) {
-        if (firstOperand != null && operator != null) {
-          double result;
-          switch (operator) {
-            case "+":
-              result = firstOperand! + secondOperand;
-              break;
-            case "-":
-              result = firstOperand! - secondOperand;
-              break;
-            case "×":
-              result = firstOperand! * secondOperand;
-              break;
-            case "÷":
-              if (secondOperand != 0) {
-                result = firstOperand! / secondOperand;
-              } else {
-                displayedValue = "Error";
-                return;
-              }
-              break;
-            default:
-              displayedValue = "Error";
-              return;
-          }
-          firstOperand = result;
-          currentInput = result.toString();
-          operator = null;
-          displayedValue = currentInput;
-        } else {
-          firstOperand = secondOperand;
-        }
-      }
-    }
   }
 }

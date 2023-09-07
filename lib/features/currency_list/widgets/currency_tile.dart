@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../repositories/currencies/models/exchange_rate.dart';
-import '../../calculator/view/calculator_view.dart';
+import '../../calculator/view/calculator_bottom_sheet.dart';
 import 'county_flag.dart';
 
 class CurrencyTile extends StatefulWidget {
