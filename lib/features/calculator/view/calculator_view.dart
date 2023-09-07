@@ -12,6 +12,9 @@ class CalculatorBottomSheet extends StatefulWidget {
 
 class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
   String currentInput = "";
+  String displayedValue = "";
+  double? firstOperand;
+  String? operator;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              currentInput,
+              displayedValue,
               style: TextStyle(fontSize: 24, color: Colors.white),
             ),
           ),
@@ -47,8 +50,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
             return Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  widget.onResult(currentInput);
-                  Navigator.pop(context);
+                  _handleButtonPress(value);
                 },
                 child: Text(value, style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
@@ -60,9 +62,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
             );
           } else {
             return _calculatorButton(value, () {
-              setState(() {
-                currentInput += value;
-              });
+              _handleButtonPress(value);
             });
           }
         }).toList(),
@@ -83,5 +83,69 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
         ),
       ),
     );
+  }
+
+  void _handleButtonPress(String value) {
+    setState(() {
+      if (value == "=") {
+        _calculateResult();
+      } else if (value == "AC") {
+        _clearCalculator();
+      } else if (value == "⌫") {
+        _backspace();
+      } else {
+        currentInput += value;
+        displayedValue = currentInput;
+      }
+    });
+  }
+
+  void _clearCalculator() {
+    currentInput = "";
+    displayedValue = "";
+    firstOperand = null;
+    operator = null;
+  }
+
+  void _backspace() {
+    if (currentInput.isNotEmpty) {
+      currentInput = currentInput.substring(0, currentInput.length - 1);
+      displayedValue = currentInput;
+    }
+  }
+
+  void _calculateResult() {
+    if (currentInput.isNotEmpty && operator != null) {
+      final secondOperand = double.tryParse(currentInput);
+      if (secondOperand != null) {
+        double result;
+        switch (operator) {
+          case "+":
+            result = firstOperand! + secondOperand;
+            break;
+          case "-":
+            result = firstOperand! - secondOperand;
+            break;
+          case "×":
+            result = firstOperand! * secondOperand;
+            break;
+          case "÷":
+            if (secondOperand != 0) {
+              result = firstOperand! / secondOperand;
+            } else {
+              displayedValue = "Error";
+              return;
+            }
+            break;
+          default:
+            displayedValue = "Error";
+            return;
+        }
+        displayedValue = result.toString();
+        currentInput = result.toString();
+        firstOperand = null;
+        operator = null;
+      }
+    }
   }
 }

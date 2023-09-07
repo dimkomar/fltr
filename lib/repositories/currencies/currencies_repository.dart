@@ -23,9 +23,13 @@ class CurrencyRepository implements AbstractCurrencyRepository {
     var rateList = <ExchangeRate>[];
     try {
       rateList = await _fetchExchangeRateFromAPI();
-      await exchangeRateBox.clear();
-      final rateMap = rateList.asMap().map((_, rate) => MapEntry(rate.name, rate));
-      await exchangeRateBox.putAll(rateMap);
+
+      // Проверяем, есть ли данные в response.data, и только потом обновляем exchangeRateBox
+      if (rateList.isNotEmpty) {
+        await exchangeRateBox.clear();
+        final rateMap = rateList.asMap().map((_, rate) => MapEntry(rate.name, rate));
+        await exchangeRateBox.putAll(rateMap);
+      }
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
       final uniqueList = exchangeRateBox.values.toSet().toList();
@@ -45,6 +49,11 @@ class CurrencyRepository implements AbstractCurrencyRepository {
 
     final response = await dio.get(
         'https://developerhub.alfabank.by:8273/partner/1.0.1/public/nationalRates?currencyCode=978,985,643,840');
+
+    if (response.data == null) {
+      // Если ответ пустой, вернуть пустой список
+      return [];
+    }
 
     final data = response.data as Map<String, dynamic>;
 
