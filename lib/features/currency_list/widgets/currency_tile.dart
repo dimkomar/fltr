@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../repositories/currencies/models/exchange_rate.dart';
+import '../../calculator/view/calculator_view.dart';
 import 'county_flag.dart';
 
 class CurrencyTile extends StatefulWidget {
@@ -28,98 +29,15 @@ class _CurrencyTileState extends State<CurrencyTile> {
   }
 
   void _showCalculatorBottomSheet() {
-    String currentInput = "";
-
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    currentInput,
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _calculatorButton("AC", () {
-                      currentInput = "";
-                      setState(() {});
-                    }),
-                    _calculatorButton("÷", () {
-                      currentInput += "/";
-                      setState(() {});
-                    }),
-                    _calculatorButton("×", () {
-                      currentInput += "*";
-                      setState(() {});
-                    }),
-                    _calculatorButton("⌫", () {
-                      if (currentInput.isNotEmpty) {
-                        currentInput = currentInput.substring(0, currentInput.length - 1);
-                      }
-                      setState(() {});
-                    }),
-                  ],
-                ),
-                _calculatorRow(["7", "8", "9", "-"], currentInput, setState),
-                _calculatorRow(["4", "5", "6", "+"], currentInput, setState),
-                _calculatorRow(["1", "2", "3"], currentInput, setState),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _calculatorButton("0", () {
-                      currentInput += "0";
-                      setState(() {});
-                    }),
-                    _calculatorButton(".", () {
-                      currentInput += ".";
-                      setState(() {});
-                    }),
-                    _calculatorButton("Спрятать", () {
-                      Navigator.pop(context);
-                    }),
-                    _calculatorButton("=", () {
-                      // TODO: add calculation logic here if needed
-                      _rateController.text = currentInput;
-                      Navigator.pop(context);
-                    }),
-                  ],
-                ),
-              ],
-            );
+        return CalculatorBottomSheet(
+          onResult: (result) {
+            _rateController.text = result;
           },
         );
       },
-    );
-  }
-
-  Widget _calculatorRow(List<String> values, String currentInput, StateSetter setState) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: values.map((value) {
-        return _calculatorButton(value, () {
-          currentInput += value;
-          setState(() {});
-        });
-      }).toList(),
-    );
-  }
-
-  Widget _calculatorButton(String label, VoidCallback onTap) {
-    return ElevatedButton(
-      onPressed: onTap,
-      child: Text(label),
-      style: ElevatedButton.styleFrom(
-        shape: CircleBorder(),
-        padding: EdgeInsets.all(20),
-      ),
     );
   }
 
