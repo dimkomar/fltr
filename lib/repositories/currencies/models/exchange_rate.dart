@@ -6,7 +6,7 @@ part 'exchange_rate.g.dart';
 @HiveType(typeId: 1)
 class ExchangeRate extends Equatable {
   @HiveField(0)
-  final double rate;
+  late final double rate;
   @HiveField(1)
   final String iso;
   @HiveField(2)

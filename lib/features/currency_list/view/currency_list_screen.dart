@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../repositories/data_providers/rate_provider.dart';
 import '../widgets/currency_tile.dart';
 
 class CurrencyListScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class CurrencyListScreen extends StatefulWidget {
 class _CurrencyListScreenState extends State<CurrencyListScreen> {
   final _currencyListBloc =
       CurrencyListBloc(GetIt.I<AbstractCurrencyRepository>());
+  final exchangeRateManager = ExchangeRateManager();
 
   @override
   void initState() {
@@ -48,7 +50,7 @@ class _CurrencyListScreenState extends State<CurrencyListScreen> {
                   separatorBuilder: (context, i) => const Divider(),
                   itemBuilder: (context, i) {
                     final currency = state.currencyList[i];
-                    return CurrencyTile(currency: currency);
+                    return CurrencyTile(currency: currency, manager: exchangeRateManager);
                   },
                 );
               }

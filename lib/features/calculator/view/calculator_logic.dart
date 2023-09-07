@@ -63,6 +63,9 @@ class CalculatorLogic {
         if (nextOperator == "=") {
           operator = null;
           currentInput = result?.toStringAsFixed(2) ?? "Error";
+          //todo
+
+
         } else {
           operator = nextOperator;
           firstOperand = result;
