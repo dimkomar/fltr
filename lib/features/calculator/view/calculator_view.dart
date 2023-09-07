@@ -15,29 +15,25 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false, // Указываем, что отступ должен быть только снизу
-      child: Container(
-        color: Colors.grey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                currentInput,
-                style: TextStyle(fontSize: 24, color: Colors.white),
-              ),
+    return Container(
+      color: Colors.grey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              currentInput,
+              style: TextStyle(fontSize: 24, color: Colors.white),
             ),
-            _calculatorRow(["AC", "÷", "×", "⌫"]),
-            _calculatorRow(["7", "8", "9", "-"]),
-            _calculatorRow(["4", "5", "6", "+"]),
-            _calculatorRow(["1", "2", "3", "="]),
-            _calculatorRow(["0", ".", "V", "="]),
-          ],
-        ),
+          ),
+          _calculatorRow(["AC", "÷", "×", "⌫"]),
+          _calculatorRow(["7", "8", "9", "-"]),
+          _calculatorRow(["4", "5", "6", "+"]),
+          _calculatorRow(["1", "2", "3", "="]),
+          _calculatorRow(["0", ".", "V", "="]),
+        ],
       ),
     );
   }
