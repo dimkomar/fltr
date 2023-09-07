@@ -17,6 +17,13 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
   double? firstOperand;
   String? operator;
 
+  final buttonTextStyle = TextStyle(color: Colors.white);
+  final buttonStyle = ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+    padding: EdgeInsets.zero,
+    primary: Colors.black,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,63 +39,36 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
               style: TextStyle(fontSize: 24, color: Colors.white),
             ),
           ),
-          _calculatorRow(["AC", "÷", "×", "⌫"]),
-          _calculatorRow(["7", "8", "9", "-"]),
-          _calculatorRow(["4", "5", "6", "+"]),
-          _calculatorRow(["1", "2", "3", "="]),
-          _calculatorRow(["0", ".", "V", "="]),
+          _calculatorButtonRow(["AC", "÷", "×", "⌫"]),
+          _calculatorButtonRow(["7", "8", "9", "-"]),
+          _calculatorButtonRow(["4", "5", "6", "+"]),
+          _calculatorButtonRow(["1", "2", "3", "="]),
+          _calculatorButtonRow(["0", ".", "V", "="]),
         ],
       ),
     );
   }
 
-  Widget _calculatorRow(List<String> values) {
+  Widget _calculatorButtonRow(List<String> values) {
     return Expanded(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: values.map((value) {
-          if (value == "=" || value == "V") {
-            return Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  _handleButtonPress(value);
-                },
-                child: Text(value, style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                  padding: EdgeInsets.zero,
-                  primary: Colors.black,
-                ),
-              ),
-            );
-          } else {
-            return _calculatorButton(value, () {
-              _handleButtonPress(value);
-            });
-          }
+          return _calculatorButton(value);
         }).toList(),
       ),
     );
   }
 
-  Widget _calculatorButton(String label, VoidCallback onTap, {bool isLong = false}) {
+  Widget _calculatorButton(String label) {
     return Expanded(
-      flex: isLong ? 2 : 1,
+      flex: label == "V" ? 2 : 1,
       child: ElevatedButton(
         onPressed: () {
-          if (label == "V") {
-            // Если нажато "V", закрываем bottom sheet
-            Navigator.of(context).pop();
-          } else {
-            _handleButtonPress(label);
-          }
+          _handleButtonPress(label);
         },
-        child: Text(label, style: TextStyle(color: Colors.white)),
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          padding: EdgeInsets.zero,
-          primary: Colors.black,
-        ),
+        child: Text(label, style: buttonTextStyle),
+        style: buttonStyle,
       ),
     );
   }
@@ -97,7 +77,6 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
     setState(() {
       if (value == "=") {
         _calculateResult();
-        // Добавьте следующую строку, чтобы передать результат в _rateController.text
         widget.onResult(displayedValue);
       } else if (value == "AC") {
         _clearCalculator();
@@ -155,8 +134,7 @@ class _CalculatorBottomSheetState extends State<CalculatorBottomSheet> {
           firstOperand = result;
           currentInput = result.toString();
           operator = null;
-          displayedValue = currentInput; // Обновляем displayedValue здесь
-          print("displayedValue: $displayedValue"); // Добавляем эту строку для вывода в консоль
+          displayedValue = currentInput;
         } else {
           firstOperand = secondOperand;
         }
