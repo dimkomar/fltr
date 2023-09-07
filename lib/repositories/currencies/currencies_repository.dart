@@ -23,11 +23,13 @@ class CurrencyRepository implements AbstractCurrencyRepository {
     var rateList = <ExchangeRate>[];
     try {
       rateList = await _fetchExchangeRateFromAPI();
+      await exchangeRateBox.clear();
       final rateMap = rateList.asMap().map((_, rate) => MapEntry(rate.name, rate));
       await exchangeRateBox.putAll(rateMap);
     } catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
-      return exchangeRateBox.values.toList();
+      final uniqueList = exchangeRateBox.values.toSet().toList();
+      return uniqueList;
     }
 
     return rateList;

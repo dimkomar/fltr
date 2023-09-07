@@ -13,9 +13,12 @@ part 'currency_list_event.dart';
 part 'currency_list_state.dart';
 
 class CurrencyListBloc extends Bloc<CurrencyListEvent, CurrencyListState> {
+
   CurrencyListBloc(this.currencyRepository) : super(CurrencyListInitial()) {
     on<LoadCurrencyList>((event, emit) async {
+      if (_isLoading) return;
       try {
+        _isLoading = true;
         if (state is! CurrencyListLoaded) {
           emit(CurrencyListLoading());
         }
@@ -29,10 +32,12 @@ class CurrencyListBloc extends Bloc<CurrencyListEvent, CurrencyListState> {
         emit(CurrencyListLoadingFailure(exception: e));
         GetIt.I<Talker>().handle(e, st);
       } finally {
+        _isLoading = false;
         event.completer?.complete();
       }
     });
   }
 
   final AbstractCurrencyRepository currencyRepository;
+  bool _isLoading = false;
 }
