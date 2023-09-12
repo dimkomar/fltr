@@ -30,7 +30,8 @@ class _CurrencyTileState extends State<CurrencyTile> {
     _focusNode = FocusNode();
   }
 
-  void _showCalculatorBottomSheet(BuildContext context) {
+  void _showCalculatorBottomSheet(BuildContext context, String iso) {
+    //сюда передается исо валюты
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -52,7 +53,8 @@ class _CurrencyTileState extends State<CurrencyTile> {
 
     return InkWell(
       onTap: () {
-        _showCalculatorBottomSheet(context);
+        _showCalculatorBottomSheet(context, widget.currency.iso);
+        print("Tapped on ${widget.currency.iso}");
       },
       child: ListTile(
         leading: getFlag(widget.currency.iso),
