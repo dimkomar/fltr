@@ -50,7 +50,7 @@ class _CurrencyListScreenState extends State<CurrencyListScreen> {
                   separatorBuilder: (context, i) => const Divider(),
                   itemBuilder: (context, i) {
                     final currency = state.currencyList[i];
-                    return CurrencyTile(currency: currency, manager: exchangeRateManager);
+                    return CurrencyTile(currency: currency);
                   },
                 );
               }

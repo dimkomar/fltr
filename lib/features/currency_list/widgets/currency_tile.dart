@@ -2,19 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../repositories/currencies/models/exchange_rate.dart';
-import '../../../repositories/data_providers/rate_provider.dart';
 import '../../calculator/view/calculator_bottom_sheet.dart';
 import 'county_flag.dart';
 
 class CurrencyTile extends StatefulWidget {
 
- final ExchangeRateManager manager;
-
 
   const CurrencyTile({
     Key? key,
-    required this.currency,
-    required this.manager,
+    required this.currency
   }) : super(key: key);
 
   final ExchangeRate currency;
@@ -34,10 +30,6 @@ class _CurrencyTileState extends State<CurrencyTile> {
     _focusNode = FocusNode();
   }
 
-  void _updateRate(String newRate) {
-    widget.manager.updateRateByIso(widget.currency.iso, double.parse(newRate));
-  }
-
   void _showCalculatorBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -47,7 +39,6 @@ class _CurrencyTileState extends State<CurrencyTile> {
             setState(() {
               _rateController.text = result;
             });
-            _updateRate(result);
             Navigator.of(context).pop();
           },
         );
