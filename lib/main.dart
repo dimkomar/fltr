@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:crypto_coins_list/repositories/currencies/currencies.dart';
+import 'package:crypto_coins_list/repositories/data_providers/exchange_rate_manager.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,6 +35,10 @@ void main() async {
 
   GetIt.I.registerLazySingleton<AbstractCurrencyRepository>(
       () => CurrencyRepository(dio: Dio(), exchangeRateBox: exchangeRateBox));
+
+
+  //GetIt.I.registerSingleton<ExchangeRateManager>(ExchangeRateManager());
+
 
   final dio = Dio();
   dio.interceptors.add(TalkerDioLogger(

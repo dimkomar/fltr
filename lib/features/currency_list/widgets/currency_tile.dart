@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../repositories/currencies/models/exchange_rate.dart';
 import '../../calculator/view/calculator_bottom_sheet.dart';
+import '../bloc/currency_list_bloc.dart';
 import 'county_flag.dart';
 
 class CurrencyTile extends StatefulWidget {
-
 
   const CurrencyTile({
     Key? key,
@@ -30,17 +31,22 @@ class _CurrencyTileState extends State<CurrencyTile> {
     _focusNode = FocusNode();
   }
 
-  void _showCalculatorBottomSheet(BuildContext context, String iso) {
+  void _showCalculatorBottomSheet(BuildContext context, String iso, CurrencyListBloc bloc) {
     //сюда передается исо валюты
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return CalculatorBottomSheet(
-          onResult: (result) {
-            setState(() {
-              _rateController.text = result;
-            });
-            Navigator.of(context).pop();
+        return Builder(
+          builder: (innerContext) {
+            return CalculatorBottomSheet(
+              onResult: (result) {
+                setState(() {
+                  _rateController.text = result;
+                });
+                bloc.add(UpdateCurrencyValues(newRate: double.parse(result)));
+                Navigator.of(context).pop();
+              },
+            );
           },
         );
       },
@@ -53,7 +59,7 @@ class _CurrencyTileState extends State<CurrencyTile> {
 
     return InkWell(
       onTap: () {
-        _showCalculatorBottomSheet(context, widget.currency.iso);
+        _showCalculatorBottomSheet(context, widget.currency.iso, BlocProvider.of<CurrencyListBloc>(context));
         print("Tapped on ${widget.currency.iso}");
       },
       child: ListTile(

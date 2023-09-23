@@ -10,3 +10,10 @@ class LoadCurrencyList extends CurrencyListEvent {
   @override
   List<Object?> get props => [completer];
 }
+
+class UpdateCurrencyValues extends CurrencyListEvent {
+  final double newRate;
+  UpdateCurrencyValues({required this.newRate});
+  @override
+  List<Object?> get props => [newRate];
+}

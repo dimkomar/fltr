@@ -44,6 +44,26 @@ class ExchangeRate extends Equatable {
         currencyMark: currencyMark);
   }
 
+  ExchangeRate copyWith({
+    double? rate,
+    String? iso,
+    int? code,
+    int? quantity,
+    String? date,
+    String? name,
+    String? currencyMark,
+  }) {
+    return ExchangeRate(
+      rate: rate ?? this.rate,
+      iso: iso ?? this.iso,
+      code: code ?? this.code,
+      quantity: quantity ?? this.quantity,
+      date: date ?? this.date,
+      name: name ?? this.name,
+      currencyMark: currencyMark ?? this.currencyMark,
+    );
+  }
+
   @override
   List<Object?> get props => [iso, code, quantity, date, name, currencyMark];
 

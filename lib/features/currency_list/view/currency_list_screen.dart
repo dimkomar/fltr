@@ -19,6 +19,7 @@ class _CurrencyListScreenState extends State<CurrencyListScreen> {
   final _currencyListBloc =
       CurrencyListBloc(GetIt.I<AbstractCurrencyRepository>());
 
+
   @override
   void initState() {
     _currencyListBloc.add(LoadCurrencyList());

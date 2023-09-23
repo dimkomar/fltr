@@ -36,6 +36,23 @@ class CurrencyListBloc extends Bloc<CurrencyListEvent, CurrencyListState> {
         event.completer?.complete();
       }
     });
+
+    on<UpdateCurrencyValues>((event, emit) async {
+      if (state is CurrencyListLoaded) {
+        final currentState = state as CurrencyListLoaded;
+        final updatedCurrencyList = _calculateNewCurrencyValues(currentState.currencyList, event.newRate);
+        emit(CurrencyListLoaded(currencyList: updatedCurrencyList));
+      }
+    });
+  }
+
+  List<ExchangeRate> _calculateNewCurrencyValues(List<ExchangeRate> currentRates, double newBaseValue) {
+    // В этом методе вы должны пересчитать курсы валют на основе newBaseValue
+    // Здесь приведен простой пример, вы должны адаптировать его в зависимости от ваших требований:
+    return currentRates.map((rate) {
+      double newRate = rate.rate * newBaseValue; // Это просто пример формулы!
+      return rate.copyWith(rate: newRate); // Предполагается, что у вас есть метод copyWith в ExchangeRate
+    }).toList();
   }
 
   final AbstractCurrencyRepository currencyRepository;

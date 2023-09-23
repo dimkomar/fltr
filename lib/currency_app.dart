@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Crypto currency',
+      title: 'National currency',
       theme: darkTheme,
       routes: routes,
       navigatorObservers: [
